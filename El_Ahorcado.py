@@ -5,19 +5,24 @@ import random
 from Palabras import words_list
 from Fases_Ahorcado import Fases_ahorcado
 
-# LOGICA PARA LA PALABRA AL AZAR
-    # BASE 
+# SET-UP DE LA VENTANA
+window = ttk.Window(themename="cyborg")
+window.title("EL AHORCADO")
+window.attributes("-fullscreen", True)
+window.bind("<Escape>", lambda event: window.destroy())
+
+# LOGICA PARA ESCOGER LA PALABRA AL AZAR
 word = random.choice(words_list)
 hidden_word = ["_"] * len(word)
 chances = 5
 failed_letters = list()
 guess_word = False
 
-    # TEST FUNCIÓN PALABRA OCULTA
+# TEST DE LA FUNCIÓN PARA LA PALABRA OCULTA
 print(hidden_word, word)
 
-    # DIBUJO AHORCADO
-def if_dibujo_ahorcado():
+# FUNCIÓN PARA LA SELECCIÓN DEL DIBUJO DEL AHORCADO
+def Elegir_Ahorcado():
     if chances == 5:
         return Fases_ahorcado[0]
 
@@ -35,17 +40,10 @@ def if_dibujo_ahorcado():
 
     elif chances == 0:
         return Fases_ahorcado[5]
-    
-Fase_ahorcado = if_dibujo_ahorcado()
-
+Fase_ahorcado = Elegir_Ahorcado() 
 print(Fase_ahorcado)
 
-# SET-UP DE LA VENTANA
-window = ttk.Window(themename="cyborg")
-window.title("EL AHORCADO")
-window.attributes("-fullscreen", True)
-window.bind("<Escape>", lambda event: window.destroy())
-
+# FUNCION PARA OBTENER LA GUESS
 def Boton_Enviar():
     guess = Entry_Guess.get()
     print(guess)
@@ -84,8 +82,7 @@ window.rowconfigure((3), weight= 18)
 window.rowconfigure((4), weight= 19)
 window.rowconfigure((5), weight= 19)
 
-# PONGO LOS ELEMNTOS EN EL GRID
-
+# PONGO LOS WIDGETS EN EL GRID
 Label_Tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
 Label_Guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
 Entry_Guess.grid(row= 2 , column= 4, columnspan= 3, sticky= "nsew", padx= 10, pady= 40)
