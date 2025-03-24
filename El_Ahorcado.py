@@ -12,7 +12,76 @@ hidden_word = ["_"] * len(word)
 chances = 5
 failed_letters = list()
 guess_word = False
+
+    # TEST FUNCIÓN PALABRA OCULTA
 print(hidden_word, word)
+
+    # DIBUJO AHORCADO
+def if_dibujo_ahorcado():
+    if chances == 5:
+        return """
+
+  
+   
+  
+  
+
+        """
+
+    elif chances == 4:
+        return """
+
+        
+
+
+
+        ---------
+        """
+
+    elif chances == 3:
+        return """
+
+         |   
+         |   
+         |  
+         |  
+        ---------
+        """
+
+    elif chances == 2:
+        return """
+         _____
+         |/  
+         |  
+         |  
+         |  
+        ---------
+        """
+
+    elif chances == 1:
+        return """
+         _____
+         |/  |
+         |   
+         |  
+         |  
+        ---------
+        """
+
+    elif chances == 0:
+        return """
+         _____
+         |/  |
+         |   O
+         |  (|)
+         |  ( )
+        ---------
+        """
+    
+Fase_ahorcado = if_dibujo_ahorcado()
+
+print(Fase_ahorcado)
+
 
 # SET-UP DE LA VENTANA
 window = ttk.Window(themename="cyborg")
@@ -29,7 +98,7 @@ Label_Failed_Guesses = ttk.Label(window, font= "Calibri 14", text = "Estas letra
 Label_Failed_Guesses_List = ttk.Label(window, font= "Calibri 14", text = failed_letters, background= "red", anchor= "center")
 Label_Chances = ttk.Label(window, font= "Calibri 14", text = "Intentos restantes", background= "brown", anchor= "center") #Fondo dinámico
 Label_ChancesNumber = ttk.Label(window, font= "Calibri 36", text = chances, background= "brown", anchor= "center") #Fondo dinámico
-Label_Hangman = ttk.Label(window, font= "Calibri 14", text = Fases_ahorcado[3], background= "brown", anchor= "center") #Fondo dinámico
+Label_Hangman = ttk.Label(window, font= "Calibri 14", text = Fase_ahorcado, background= "brown", anchor= "center") #Fondo dinámico
 Label_Hidden_Word = ttk.Label(window, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
 Label_Hidden_Word_Show = ttk.Label(window, font= "Calibri 36", text = hidden_word, anchor= "center")
 
