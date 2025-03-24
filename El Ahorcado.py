@@ -1,15 +1,26 @@
 import tkinter as tk
 from tkinter import ttk
 import ttkbootstrap as ttk
+import random
+from Palabras import words_list
 
-# setup
+# LOGICA PARA LA PALABRA AL AZAR
+    # BASE 
+word = random.choice(words_list)
+hidden_word = ["_"] * len(word)
+chances = 5
+failed_letters = list()
+guess_word = False
+print(hidden_word, word)
+
+# SET-UP DE LA VENTANA
 window = ttk.Window(themename="cyborg")
 window.title("EL AHORCADO")
 window.attributes("-fullscreen", True)
 window.bind("<Escape>", lambda event: window.destroy())
 
-# widgets
-Label_Tittle = ttk.Label(window, text = "Label_Tittle", background= "blue", font = "Cambria 25 bold", anchor= "center")
+# WIDGETS
+Label_Tittle = ttk.Label(window, text = "EL AHORCADO", background= "blue", font = "Cambria 25 bold", anchor= "center")
 Label_Guess = ttk.Label(window, font= "Calibri 14", text = "Introduzca una letra o palabra para adivinar:", background= "green", anchor= "center")
 Entry_Guess = ttk.Entry(window, font= "Calibri 14", foreground= "green", justify="center")
 Button_Submit = ttk.Button(window, text="Enviar", command= lambda: print("Tonto"))
@@ -22,7 +33,7 @@ Label_Hidden_Word = ttk.Label(window, font= "Calibri 20", text = "Esta es la pal
 Label_Hidden_Word_Show = ttk.Label(window, font= "Calibri 36", text = "Label_Hidden_Word_Show", anchor= "center")
 
 
-# configuro las columnas y filas
+# CONFIGURO ROWS Y COLUMNS
     # COLUMN CONFIGURE
 window.columnconfigure((0, 9), weight= 3)
 window.columnconfigure((1), weight= 15)
@@ -42,7 +53,7 @@ window.rowconfigure((3), weight= 18)
 window.rowconfigure((4), weight= 19)
 window.rowconfigure((5), weight= 19)
 
-#place a widget
+# PONGO LOS ELEMNTOS EN EL GRID
 
 Label_Tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
 Label_Guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
@@ -57,5 +68,5 @@ Label_Hidden_Word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5
 Label_Hidden_Word_Show.grid(row= 5, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
 
 
-# run
+# RUN
 window.mainloop()
