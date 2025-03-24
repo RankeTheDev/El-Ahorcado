@@ -48,9 +48,11 @@ Fases_ahorcado=("""
 ---------
 """)
 
+"""
 print(Fases_ahorcado[0])
 print(Fases_ahorcado[1])
 print(Fases_ahorcado[2])
 print(Fases_ahorcado[3])
 print(Fases_ahorcado[4])
 print(Fases_ahorcado[5])
+"""
