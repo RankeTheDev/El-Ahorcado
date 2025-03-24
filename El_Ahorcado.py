@@ -3,6 +3,7 @@ from tkinter import ttk
 import ttkbootstrap as ttk
 import random
 from Palabras import words_list
+from Fases_Ahorcado import Fases_ahorcado
 
 # LOGICA PARA LA PALABRA AL AZAR
     # BASE 
@@ -22,15 +23,15 @@ window.bind("<Escape>", lambda event: window.destroy())
 # WIDGETS
 Label_Tittle = ttk.Label(window, text = "EL AHORCADO", background= "blue", font = "Cambria 25 bold", anchor= "center")
 Label_Guess = ttk.Label(window, font= "Calibri 14", text = "Introduzca una letra o palabra para adivinar:", background= "green", anchor= "center")
-Entry_Guess = ttk.Entry(window, font= "Calibri 14", foreground= "green", justify="center")
-Button_Submit = ttk.Button(window, text="Enviar", command= lambda: print("Tonto"))
+Entry_Guess = ttk.Entry(window, font= "Calibri 20", foreground= "green", justify="center")
+Button_Submit = ttk.Button(window, text="Enviar", command= lambda: print(chances))
 Label_Failed_Guesses = ttk.Label(window, font= "Calibri 14", text = "Estas letras y palabras son incorrectas:", background= "red", anchor= "center")
-Label_Failed_Guesses_List = ttk.Label(window, font= "Calibri 14", text = "Label_Failed_Guesses_List", background= "red", anchor= "center")
+Label_Failed_Guesses_List = ttk.Label(window, font= "Calibri 14", text = failed_letters, background= "red", anchor= "center")
 Label_Chances = ttk.Label(window, font= "Calibri 14", text = "Intentos restantes", background= "brown", anchor= "center") #Fondo dinámico
-Label_ChancesNumber = ttk.Label(window, font= "Calibri 36", text = "Chances_Number", background= "brown", anchor= "center") #Fondo dinámico
-Label_Hangman = ttk.Label(window, font= "Calibri 14", text = "Label_Hangman", background= "brown", anchor= "center") #Fondo dinámico
+Label_ChancesNumber = ttk.Label(window, font= "Calibri 36", text = chances, background= "brown", anchor= "center") #Fondo dinámico
+Label_Hangman = ttk.Label(window, font= "Calibri 14", text = Fases_ahorcado[3], background= "brown", anchor= "center") #Fondo dinámico
 Label_Hidden_Word = ttk.Label(window, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
-Label_Hidden_Word_Show = ttk.Label(window, font= "Calibri 36", text = "Label_Hidden_Word_Show", anchor= "center")
+Label_Hidden_Word_Show = ttk.Label(window, font= "Calibri 36", text = hidden_word, anchor= "center")
 
 
 # CONFIGURO ROWS Y COLUMNS
