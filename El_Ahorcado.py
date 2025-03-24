@@ -19,64 +19,22 @@ print(hidden_word, word)
     # DIBUJO AHORCADO
 def if_dibujo_ahorcado():
     if chances == 5:
-        return """
-
-  
-   
-  
-  
-
-        """
+        return Fases_ahorcado[0]
 
     elif chances == 4:
-        return """
-
-        
-
-
-
-        ---------
-        """
+        return Fases_ahorcado[1]
 
     elif chances == 3:
-        return """
-
-         |   
-         |   
-         |  
-         |  
-        ---------
-        """
+        return Fases_ahorcado[2]
 
     elif chances == 2:
-        return """
-         _____
-         |/  
-         |  
-         |  
-         |  
-        ---------
-        """
+        return Fases_ahorcado[3]
 
     elif chances == 1:
-        return """
-         _____
-         |/  |
-         |   
-         |  
-         |  
-        ---------
-        """
+        return Fases_ahorcado[4]
 
     elif chances == 0:
-        return """
-         _____
-         |/  |
-         |   O
-         |  (|)
-         |  ( )
-        ---------
-        """
+        return Fases_ahorcado[5]
     
 Fase_ahorcado = if_dibujo_ahorcado()
 
