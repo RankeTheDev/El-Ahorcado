@@ -89,6 +89,7 @@ class Widgets(ttk.Frame):
         
         # FUNCION PARA OBTENER LA GUESS
         def Boton_Enviar():
+            global guess
             guess = Entry_Guess.get()
             print(guess)
 
