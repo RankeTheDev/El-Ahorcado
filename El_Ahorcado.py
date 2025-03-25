@@ -139,7 +139,7 @@ class Widgets(ttk.Frame):
         button_close = tk.Button(window, text="Close", command= window.destroy)
         button_close.pack(fill='x')
     
-    # ACTUALIZAR EL ESTADO DLE JUEGO
+    # ACTUALIZAR EL ESTADO DEl JUEGO
     def update_game(self):
         # COMPRUEBA SI SE ADIVINÓ LA PALABRA COMPLETA
         if self.guess == self.word:
@@ -162,9 +162,47 @@ class Widgets(ttk.Frame):
         self.Label_Hangman.config(text= self.Elegir_Ahorcado())
 
         if "_" not in self.hidden_word or self.guess_word == True:
-            print("\n¡Felicidades! Adivinó la palabra:", self.word)
+            self.Win_PopUp()
         elif self.chances == 0:
-            print("\n¡Perdiste! La palabra era:", self.word)
+            self.Lose_PopUp()
+    
+    # FUNCION PARA REINICIAR EL JUEGO
+    def reiniciar_juego(self):
+        # Vuelve a elegir la palabra
+        self.Choose_Word() 
+        # Actualiza los widgets
+        self.Label_Hidden_Word_Show.config(text=self.hidden_word)
+        self.Label_Failed_Guesses_List.config(text=self.failed_letters)
+        self.Label_Chances_Number.config(text=self.chances)
+        self.Label_Hangman.config(text=self.Elegir_Ahorcado())
+
+    # POP UP DE VICTORIA
+    def Win_PopUp(self):
+        window = tk.Toplevel(self.master)
+        window.geometry("400x160")
+        window.resizable(0,0)
+        window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
+        Info_Win="Felicidades, acertaste la palabra '", self.word ,"' y ganaste el juego. Ahora puedes salir del juego o inetentar ganar de nuevo, ¿qué deseas hacer?"
+        label = ttk.Label(window, text= Info_Win, wraplength= 360, justify= "center")
+        label.pack(fill= "both", padx= 20, pady=20)
+        button_win_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
+        button_win_close.pack(fill= "both", side= "bottom")
+        button_win_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
+        button_win_reset.pack(fill= "both", side= "bottom")
+
+    # POP UP DE DERROTA
+    def Lose_PopUp(self):
+        window = tk.Toplevel(self.master)
+        window.geometry("400x160")
+        window.resizable(0,0)
+        window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
+        Info_Lose="Una pena, no lograste acertar la palabra '", self.word ,"' y fuiste ahorcado. Ahora puedes salir del juego o intentarlo de nuevo, ¿qué deseas hacer?"
+        label = ttk.Label(window, text= Info_Lose, wraplength= 360, justify= "center")
+        label.pack(fill= "both", padx= 20, pady=20)
+        button_lose_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
+        button_lose_close.pack(fill= "both", side= "bottom")
+        button_close_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
+        button_close_reset.pack(fill= "both", side= "bottom")
 
     def Play(self):
         self.update()
@@ -179,7 +217,9 @@ class Menu(tk.Menu):
         Ajustes = tk.Menu(self, tearoff = False)
         Ajustes.add_command(label= "Información", command= self.Info_PopUp)
         Ajustes.add_separator()
-        Ajustes.add_command(label= "Salir del Juego", command= lambda: self.master.destroy())
+        Ajustes.add_command(label= "Reiniciar el Ahorcado", command= lambda: self.master.widgets.reiniciar_juego())
+        Ajustes.add_separator()
+        Ajustes.add_command(label= "Salir del Ahorcado", command= lambda: self.master.destroy())
         self.add_cascade(label= "Ajustes", menu= Ajustes)
 
     def Info_PopUp(self):
@@ -190,7 +230,7 @@ class Menu(tk.Menu):
         Info="En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉"
         label = ttk.Label(window, text= Info, wraplength= 360, justify= "center")
         label.pack(fill= "both", padx= 20, pady=20)
-        button_close = tk.Button(window, text="Close", command= window.destroy)
+        button_close = tk.Button(window, text="Volver al juego", command= window.destroy)
         button_close.pack(fill= "both", side= "bottom")
 
 Ahorcado_App()
