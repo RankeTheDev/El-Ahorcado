@@ -87,22 +87,31 @@ class Widgets(ttk.Frame):
         Fase_ahorcado = Elegir_Ahorcado() 
         print(Fase_ahorcado)
         
+        Colores_Background=("green","gold","red")
+        def Elegir_Background():
+            if chances == 5:
+                return Colores_Background[0]
+            elif chances >= 3:
+                return Colores_Background[1]
+            else:
+                return Colores_Background[2]
+        color_bg = Elegir_Background()
+
         # FUNCION PARA OBTENER LA GUESS
         def Boton_Enviar():
             global guess
             guess = Entry_Guess.get()
-            print(guess)
 
         # CREAR WIDGETS
-        Label_Tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "blue", anchor= "center")
-        Label_Guess = ttk.Label(self, font= "Calibri 14", text= "Introduzca una letra o palabra para adivinar:", background= "green", anchor= "center")
+        Label_Tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "silver", foreground= "black", anchor= "center")
+        Label_Guess = ttk.Label(self, font= "Calibri 14", text= "Introduzca una letra o palabra para adivinar:", background= "blue", anchor= "center")
         Entry_Guess = ttk.Entry(self, font= "Calibri 20", foreground= "green", justify= "center")
         Button_Submit = ttk.Button(self, text= "Enviar", command= Boton_Enviar)
-        Label_Failed_Guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "red", anchor= "center")
-        Label_Failed_Guesses_List = ttk.Label(self, font= "Calibri 14", text= failed_letters, background= "red", anchor= "center")
-        Label_Chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= "brown", anchor= "center") #Fondo dinámico
-        Label_ChancesNumber = ttk.Label(self, font= "Calibri 36", text= chances, background= "brown", anchor= "center") #Fondo dinámico
-        Label_Hangman = ttk.Label(self, font= "Calibri 14", text= Fase_ahorcado, background= "brown", anchor= "center") #Fondo dinámico
+        Label_Failed_Guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "purple", anchor= "center")
+        Label_Failed_Guesses_List = ttk.Label(self, font= "Calibri 14", text= failed_letters, background= "purple", anchor= "center")
+        Label_Chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= color_bg, anchor= "center") #Fondo dinámico
+        Label_ChancesNumber = ttk.Label(self, font= "Calibri 36", text= chances, background= color_bg, anchor= "center") #Fondo dinámico
+        Label_Hangman = ttk.Label(self, font= "Calibri 14", text= Fase_ahorcado, background= color_bg, anchor= "center") #Fondo dinámico
         Label_Hidden_Word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         Label_Hidden_Word_Show = ttk.Label(self, font= "Calibri 36", text = hidden_word, anchor= "center")
         
