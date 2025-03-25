@@ -99,8 +99,9 @@ class Widgets(ttk.Frame):
 
     def create_widgets(self):    
         # FUNCION PARA OBTENER LA GUESS
-        def boton_enviar():
-            self.guess = self.entry_guess.get()
+        def boton_enviar(event= None):
+            # CON EL LOWER LA GUESS SIEMPRE PASARÁ EN MINÚSCULAS, EVITANDO ERRORES AL COMPARAR LAS LETRAS 
+            self.guess = self.entry_guess.get().lower() 
             self.update_game()
             self.entry_guess.delete(0, tk.END)
         
@@ -108,7 +109,11 @@ class Widgets(ttk.Frame):
         label_tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "silver", foreground= "black", anchor= "center")
         label_guess = ttk.Label(self, font= "Calibri 14", text= "Introduzca una letra o palabra para adivinar:", background= "cyan",  foreground= "black", anchor= "center")
         self.entry_guess = ttk.Entry(self, font= "Calibri 20", foreground= "purple", justify= "center")
+        
         button_submit = ttk.Button(self, text= "Enviar", command= boton_enviar)
+        # Vincular la tecla Enter al campo de entrada
+        self.entry_guess.bind("<Return>", boton_enviar)
+        
         label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "brown", foreground= "black", anchor= "center")
         self.label_failed_guesses_list = ttk.Label(self, font= "Calibri 14", text= self.failed_letters, background= "brown", foreground= "black", anchor= "center")
         self.label_chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
@@ -117,7 +122,7 @@ class Widgets(ttk.Frame):
         label_hidden_word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         self.label_hidden_word_show = ttk.Label(self, font= "Calibri 36", text = self.hidden_word, anchor= "center")
         
-        # PLACE
+        # PLACE WIDGETS
         label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
         label_guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
         self.entry_guess.grid(row= 2 , column= 4, columnspan= 3, sticky= "nsew", padx= 10, pady= 40)
@@ -129,13 +134,6 @@ class Widgets(ttk.Frame):
         self.label_hangman.grid(row= 4, column= 3, rowspan= 2, columnspan= 2, sticky= "nsew", padx= 20, pady= 10)
         label_hidden_word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
         self.label_hidden_word_show.grid(row= 5, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
-
-    def guess_duplicada(self):
-        window = tk.Toplevel(self.master)
-        label = ttk.Label(window, text="Ya ha escogido esta letra antes o no ha introducido un valor válido")
-        label.pack(fill='both', padx=25, pady=5)
-        button_close = tk.Button(window, text="Close", command= window.destroy)
-        button_close.pack(fill='x')
     
     # ACTUALIZAR EL ESTADO DEl JUEGO
     def update_game(self):
