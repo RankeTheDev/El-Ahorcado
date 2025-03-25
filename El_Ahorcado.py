@@ -12,6 +12,7 @@ class Ahorcado_App(ttk.Window):
         super().__init__(themename=themename)
         self.title("El Ahorcado")
         self.geometry("1280x720")
+        self.minsize(960, 540)
         self.bind("<Escape>", lambda event: self.destroy())
 
         # PARTES DE LA APP
@@ -183,10 +184,12 @@ class Menu(tk.Menu):
 
     def Info_PopUp(self):
         window = tk.Toplevel(self.master)
-        window.geometry("400x200")
+        window.geometry("400x160")
+        window.resizable(0,0)
         window.title("Información")
-        label = ttk.Label(window, text="Información")
-        label.pack(fill= "both", padx=25, pady=5)
+        Info="En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉"
+        label = ttk.Label(window, text= Info, wraplength= 360, justify= "center")
+        label.pack(fill= "both", padx= 20, pady=20)
         button_close = tk.Button(window, text="Close", command= window.destroy)
         button_close.pack(fill= "both", side= "bottom")
 
