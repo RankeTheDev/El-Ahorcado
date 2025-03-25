@@ -51,7 +51,7 @@ class Widgets(ttk.Frame):
         self.guess_word = False
 
         # TEST DE LA FUNCIÓN PARA LA PALABRA OCULTA
-        print(self.hidden_word, self.word)
+        #print(self.hidden_word, self.word)
 
     def grid_config(self):
         # COLUMN CONFIGURE
@@ -170,8 +170,9 @@ class Widgets(ttk.Frame):
         # Actualiza los widgets
         self.label_hidden_word_show.config(text=self.hidden_word)
         self.label_failed_guesses_list.config(text=self.failed_letters)
-        self.label_chances_number.config(text=self.chances)
-        self.label_hangman.config(text=self.elegir_dibujo_ahorcado())
+        self.label_chances.config(background= self.elegir_color_background())
+        self.label_chances_number.config(text=self.chances, background= self.elegir_color_background())
+        self.label_hangman.config(text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background())
 
     # POP UP DE VICTORIA
     def win_pop_up(self):
