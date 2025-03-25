@@ -48,28 +48,7 @@ class Widgets(ttk.Frame):
 
         # TEST DE LA FUNCIÓN PARA LA PALABRA OCULTA
         print(hidden_word, word)
-    
-    """
-    # FUNCIÓN PARA LA SELECCIÓN DEL DIBUJO DEL AHORCADO
-    def Elegir_Ahorcado(self):
-        if chances == 5:
-            return Fases_ahorcado[0]
-        elif chances == 4:
-            return Fases_ahorcado[1]
-        elif chances == 3:
-            return Fases_ahorcado[2]
-        elif chances == 2:
-            return Fases_ahorcado[3]
-        elif chances == 1:
-            return Fases_ahorcado[4]
-        elif chances == 0:
-            return Fases_ahorcado[5]
 
-        global Fase_ahorcado
-        Fase_ahorcado = self.Elegir_Ahorcado()
-        print(Fase_ahorcado)
-    """
-        
     def Widgets_Grid(self):
         # COLUMN CONFIGURE
         self.columnconfigure((0, 9), weight= 3)
@@ -105,10 +84,8 @@ class Widgets(ttk.Frame):
                 return Fases_ahorcado[4]
             elif chances == 0:
                 return Fases_ahorcado[5]
-
-            global Fase_ahorcado
-            Fase_ahorcado = self.Elegir_Ahorcado()
-            print(Fase_ahorcado)
+        Fase_ahorcado = Elegir_Ahorcado() 
+        print(Fase_ahorcado)
         
         # FUNCION PARA OBTENER LA GUESS
         def Boton_Enviar():
@@ -116,17 +93,15 @@ class Widgets(ttk.Frame):
             print(guess)
 
         # CREAR WIDGETS
-        Label_Tittle = ttk.Label(self, font = "Cambria 25 bold", text = "EL AHORCADO", background= "blue", anchor= "center")
-        Label_Guess = ttk.Label(self, font= "Calibri 14", text = "Introduzca una letra o palabra para adivinar:", background= "green", anchor= "center")
-        Entry_Guess = ttk.Entry(self, font= "Calibri 20", foreground= "green", justify="center")
-        Button_Submit = ttk.Button(self, text="Enviar", command= Boton_Enviar)
-        Label_Failed_Guesses = ttk.Label(self, font= "Calibri 14", text = "Estas letras y palabras son incorrectas:", background= "red", anchor= "center")
-        Label_Failed_Guesses_List = ttk.Label(self, font= "Calibri 14", text = failed_letters, background= "red", anchor= "center")
-        Label_Chances = ttk.Label(self, font= "Calibri 14", text = "Intentos restantes", background= "brown", anchor= "center") #Fondo dinámico
-        Label_ChancesNumber = ttk.Label(self, font= "Calibri 36", text = chances, background= "brown", anchor= "center") #Fondo dinámico
-        #DIBUJO
-        Label_Hangman = ttk.Label(self, font= "Calibri 14", text = lambda: Elegir_Ahorcado(), background= "brown", anchor= "center") #Fondo dinámico
-
+        Label_Tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "blue", anchor= "center")
+        Label_Guess = ttk.Label(self, font= "Calibri 14", text= "Introduzca una letra o palabra para adivinar:", background= "green", anchor= "center")
+        Entry_Guess = ttk.Entry(self, font= "Calibri 20", foreground= "green", justify= "center")
+        Button_Submit = ttk.Button(self, text= "Enviar", command= Boton_Enviar)
+        Label_Failed_Guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "red", anchor= "center")
+        Label_Failed_Guesses_List = ttk.Label(self, font= "Calibri 14", text= failed_letters, background= "red", anchor= "center")
+        Label_Chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= "brown", anchor= "center") #Fondo dinámico
+        Label_ChancesNumber = ttk.Label(self, font= "Calibri 36", text= chances, background= "brown", anchor= "center") #Fondo dinámico
+        Label_Hangman = ttk.Label(self, font= "Calibri 14", text= Fase_ahorcado, background= "brown", anchor= "center") #Fondo dinámico
         Label_Hidden_Word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         Label_Hidden_Word_Show = ttk.Label(self, font= "Calibri 36", text = hidden_word, anchor= "center")
         
@@ -135,7 +110,7 @@ class Widgets(ttk.Frame):
         Label_Guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
         Entry_Guess.grid(row= 2 , column= 4, columnspan= 3, sticky= "nsew", padx= 10, pady= 40)
         Button_Submit.grid(row= 2, column= 7, sticky= "nsew", padx= 10, pady= 50)
-        Label_Failed_Guesses.grid(row= 3, column= 2, sticky= "nsew", padx= 5, pady= 50)
+        Label_Failed_Guesses.grid(row= 3, column= 2, sticky= "nsew", padx= 5, pady= 25)
         Label_Failed_Guesses_List.grid(row= 3, column= 4, columnspan= 4, sticky= "nsew", padx= 50, pady= 25)
         Label_Chances.grid(row= 4 , column= 2, columnspan= 1, sticky= "nsew", padx= 33, pady= 5)
         Label_ChancesNumber.grid(row= 5 , column= 2, columnspan= 1, sticky= "nsew", padx= 33, pady= 5)
