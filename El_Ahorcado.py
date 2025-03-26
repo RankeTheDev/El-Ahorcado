@@ -124,6 +124,7 @@ class Widgets(ttk.Frame):
         self.label_hangman = ttk.Label(self, font= "Calibri 14", text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         label_hidden_word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         self.label_hidden_word_show = ttk.Label(self, font= "Calibri 36", text = self.hidden_word, anchor= "center")
+        label_version = ttk.Label(self, font= "Calibri 5", text= "v 1.2", foreground= "grey", anchor= "center")
         
         # PLACE WIDGETS
         label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
@@ -137,6 +138,7 @@ class Widgets(ttk.Frame):
         self.label_hangman.grid(row= 4, column= 3, rowspan= 2, columnspan= 2, sticky= "nsew", padx= 20, pady= 10)
         label_hidden_word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
         self.label_hidden_word_show.grid(row= 5, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
+        label_version.grid(row= 6, column= 9, sticky= "sw", padx= 5, pady= 5)
     
     # ACTUALIZAR EL ESTADO DEl JUEGO
     def update_game(self):
