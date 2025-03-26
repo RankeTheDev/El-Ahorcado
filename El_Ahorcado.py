@@ -178,14 +178,14 @@ class Widgets(ttk.Frame):
     def win_pop_up(self):
         # SET-UP POP-UP WIN
         window = tk.Toplevel(self.master)
-        window.geometry("550x150")
+        window.geometry("590x250")
         window.resizable(0,0)
         window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
 
         # CONTENIDO WIN
         info_win_txt= f"Felicidades, acertaste la palabra '{self.word}' y ganaste el juego. \nAhora puedes salir del juego o intentar ganar de nuevo, ¿qué deseas hacer?"
-        label = ttk.Label(window, text= info_win_txt, wraplength= 510, justify= "center")
-        label.pack(fill= "both", padx= 20, pady= 25)
+        label = ttk.Label(window, text= info_win_txt, wraplength= 550, justify= "center")
+        label.pack(fill= "both", padx= 25, pady= 25)
         button_win_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
         button_win_close.pack(fill= "both", side= "bottom")
         button_win_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
@@ -195,14 +195,14 @@ class Widgets(ttk.Frame):
     def lose_pop_up(self):
         # SET-UP POP-UP LOSE
         window = tk.Toplevel(self.master)
-        window.geometry("550x150")
+        window.geometry("590x250")
         window.resizable(0,0)
         window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
 
         # CONTENIDO LOSE
         info_lose_txt= f"Una pena, no lograste acertar la palabra '{self.word}' y fuiste ahorcado. \nAhora puedes salir del juego o intentarlo de nuevo, ¿qué deseas hacer?"
-        label = ttk.Label(window, text= info_lose_txt, wraplength= 510, justify= "center")
-        label.pack(fill= "both", padx= 20, pady= 25)
+        label = ttk.Label(window, text= info_lose_txt, wraplength= 550, justify= "center")
+        label.pack(fill= "both", padx= 25, pady= 25)
         button_lose_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
         button_lose_close.pack(fill= "both", side= "bottom")
         button_close_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
@@ -212,14 +212,14 @@ class Widgets(ttk.Frame):
     def duplicados_pop_up(self):
         # SET-UP POP-UP DUPLICADOS
         window = tk.Toplevel(self.master)
-        window.geometry("550x150")
+        window.geometry("750x150")
         window.resizable(0,0)
         window.title("ERROR")
         
         # CONTENIDO DUPLICADOS
         info_duplicados_txt= "Introdujiste una palabra o letra fallida ya dicha antes, ten más cuidado la próxima vez."
-        label = ttk.Label(window, text= info_duplicados_txt, wraplength= 510, justify= "center")
-        label.pack(fill= "both", padx= 20, pady= 25)
+        label = ttk.Label(window, text= info_duplicados_txt, wraplength= 750, justify= "center")
+        label.pack(fill= "both", padx= 25, pady= 25)
         button_close_reset = tk.Button(window, text="Volver al juego", command= lambda: window.destroy())
         button_close_reset.pack(fill= "both", side= "bottom")
 
@@ -247,7 +247,7 @@ class Menu(tk.Menu):
     def info_pop_up(self):
         # SET-UP POP-UP INFO
         window = tk.Toplevel(self.master)
-        window.geometry("400x160")
+        window.geometry("400x200")
         window.resizable(0,0)
         window.title("Información")
 
