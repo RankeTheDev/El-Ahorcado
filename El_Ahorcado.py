@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import ttkbootstrap as ttk
 import random
+import ctypes
 from Palabras import words_list
 from Fases_Ahorcado import fases_ahorcado
 
@@ -14,7 +15,9 @@ class Ahorcado_App(ttk.Window):
         self.title("El Ahorcado")
         self.geometry("1280x720")
         self.minsize(960, 540)
-
+        # ICONO DE LA VENTANA
+        self.iconbitmap("Ahorcado.ico")
+        
         # PARTES DE LA APP
         self.widgets = Widgets(self)
         self.menu = Menu(self)
@@ -121,6 +124,7 @@ class Widgets(ttk.Frame):
         self.label_hangman = ttk.Label(self, font= "Calibri 14", text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         label_hidden_word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         self.label_hidden_word_show = ttk.Label(self, font= "Calibri 36", text = self.hidden_word, anchor= "center")
+        label_version = ttk.Label(self, font= "Calibri 5", text= "v 1.2", foreground= "grey", anchor= "center")
         
         # PLACE WIDGETS
         label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
@@ -134,6 +138,7 @@ class Widgets(ttk.Frame):
         self.label_hangman.grid(row= 4, column= 3, rowspan= 2, columnspan= 2, sticky= "nsew", padx= 20, pady= 10)
         label_hidden_word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
         self.label_hidden_word_show.grid(row= 5, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
+        label_version.grid(row= 6, column= 9, sticky= "sw", padx= 5, pady= 5)
     
     # ACTUALIZAR EL ESTADO DEl JUEGO
     def update_game(self):
@@ -180,6 +185,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("590x250")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
 
         # CONTENIDO WIN
@@ -197,6 +203,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("590x250")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
 
         # CONTENIDO LOSE
@@ -214,6 +221,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("750x150")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("ERROR")
         
         # CONTENIDO DUPLICADOS
@@ -249,6 +257,7 @@ class Menu(tk.Menu):
         window = tk.Toplevel(self.master)
         window.geometry("400x200")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("Información")
 
         # CONTENIDO INFO
