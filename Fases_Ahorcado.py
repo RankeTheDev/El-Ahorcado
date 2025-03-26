@@ -4,7 +4,7 @@
 # Fase 3 [3] -> 3 fallos.
 # Fase 4 [4] -> 4 fallos.
 # Fase 5 [5] -> 5 fallos, pierdes.
-Fases_ahorcado=("""
+fases_ahorcado=("""
 
   
    
