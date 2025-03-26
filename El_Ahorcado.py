@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 import ttkbootstrap as ttk
 import random
-import ctypes
 from Palabras import words_list
 from Fases_Ahorcado import fases_ahorcado
 
