@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import ttkbootstrap as ttk
 import random
+import ctypes
 from Palabras import words_list
 from Fases_Ahorcado import fases_ahorcado
 
@@ -13,9 +14,10 @@ class Ahorcado_App(ttk.Window):
         super().__init__(themename=themename)
         self.title("El Ahorcado")
         self.geometry("1280x720")
-        self.iconbitmap("Ahorcado.ico")
         self.minsize(960, 540)
-
+        # ICONO DE LA VENTANA
+        self.iconbitmap("Ahorcado.ico")
+        
         # PARTES DE LA APP
         self.widgets = Widgets(self)
         self.menu = Menu(self)
