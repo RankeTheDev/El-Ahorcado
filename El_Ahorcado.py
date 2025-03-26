@@ -13,6 +13,7 @@ class Ahorcado_App(ttk.Window):
         super().__init__(themename=themename)
         self.title("El Ahorcado")
         self.geometry("1280x720")
+        self.iconbitmap("Ahorcado.ico")
         self.minsize(960, 540)
 
         # PARTES DE LA APP
@@ -180,6 +181,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("590x250")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
 
         # CONTENIDO WIN
@@ -197,6 +199,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("590x250")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
 
         # CONTENIDO LOSE
@@ -214,6 +217,7 @@ class Widgets(ttk.Frame):
         window = tk.Toplevel(self.master)
         window.geometry("750x150")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("ERROR")
         
         # CONTENIDO DUPLICADOS
@@ -249,6 +253,7 @@ class Menu(tk.Menu):
         window = tk.Toplevel(self.master)
         window.geometry("400x200")
         window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
         window.title("Información")
 
         # CONTENIDO INFO
