@@ -36,6 +36,8 @@ class Widgets(ttk.Frame):
         self.failed_letters = []
         self.guess_word = False
         self.guess = ""
+        self.win_pop_up_is_open = False
+        self.lose_pop_up_is_open = False
 
         # FUNCIONES DE LA CLASE
         self.choose_word()
@@ -162,9 +164,9 @@ class Widgets(ttk.Frame):
         self.label_chances_number.config(text=self.chances, background= self.elegir_color_background())
         self.label_hangman.config(text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background())
 
-        if "_" not in self.hidden_word or self.guess_word == True:
+        if "_" not in self.hidden_word or self.guess_word == True and self.win_pop_up_is_open == False:
             self.win_pop_up()
-        elif self.chances == 0:
+        elif self.chances == 0 and self.lose_pop_up_is_open == False:
             self.lose_pop_up()
     
     # FUNCION PARA REINICIAR EL JUEGO
@@ -177,7 +179,10 @@ class Widgets(ttk.Frame):
         self.label_chances.config(background= self.elegir_color_background())
         self.label_chances_number.config(text=self.chances, background= self.elegir_color_background())
         self.label_hangman.config(text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background())
-
+        # Resetea la variable para prevenir bugs de repeticion infinita en los pop ups
+        self.win_pop_up_is_open = False
+        self.lose_pop_up_is_open = False
+        
     # POP UP DE VICTORIA
     def win_pop_up(self):
         # SET-UP POP-UP WIN
@@ -186,6 +191,7 @@ class Widgets(ttk.Frame):
         window.resizable(0,0)
         window.iconbitmap("Ahorcado.ico")
         window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
+        self.win_pop_up_is_open = True
 
         # CONTENIDO WIN
         info_win_txt= f"Felicidades, acertaste la palabra '{self.word}' y ganaste el juego. \nAhora puedes salir del juego o intentar ganar de nuevo, ¿qué deseas hacer?"
@@ -204,6 +210,7 @@ class Widgets(ttk.Frame):
         window.resizable(0,0)
         window.iconbitmap("Ahorcado.ico")
         window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
+        self.lose_pop_up_is_open = True
 
         # CONTENIDO LOSE
         info_lose_txt= f"Una pena, no lograste acertar la palabra '{self.word}' y fuiste ahorcado. \nAhora puedes salir del juego o intentarlo de nuevo, ¿qué deseas hacer?"
