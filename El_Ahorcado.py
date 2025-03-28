@@ -125,7 +125,7 @@ class Widgets(ttk.Frame):
         self.label_hangman = ttk.Label(self, font= "Calibri 14", text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         label_hidden_word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
         self.label_hidden_word_show = ttk.Label(self, font= "Calibri 36", text = self.hidden_word, anchor= "center")
-        label_version = ttk.Label(self, font= "Calibri 5", text= "v 1.2", foreground= "grey", anchor= "center")
+        label_version = ttk.Label(self, font= "Calibri 7", text= "v 1.2.3", foreground= "grey", anchor= "center")
         
         # PLACE WIDGETS
         label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
