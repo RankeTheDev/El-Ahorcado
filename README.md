@@ -1,4 +1,4 @@
-# El-Ahorcado
+# El Ahorcado
 ## Juego del ahorcado simple. 
 Se ha programado en Python con la GUI de Tkinter. 
 
