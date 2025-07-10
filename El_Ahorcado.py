@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import ttkbootstrap as ttk
 import random
-from Palabras import words_list
-from Fases_Ahorcado import fases_ahorcado
+from WordsPool import words_en
+from WordsPool import words_es
+from Fails import fases_ahorcado
 
 # APP
 class Ahorcado_App(ttk.Window):
@@ -36,6 +37,7 @@ class Widgets(ttk.Frame):
         self.failed_letters = []
         self.guess_word = False
         self.guess = ""
+        self.hint_requested = False  # Variable para controlar si se ha solicitado una pista
         self.win_pop_up_is_open = False
         self.lose_pop_up_is_open = False
 
@@ -48,7 +50,7 @@ class Widgets(ttk.Frame):
     # LOGICA PARA ESCOGER LA PALABRA AL AZAR
     def choose_word(self):
         # ESCOGE LA PALABRA
-        self.word = random.choice(words_list)
+        self.word = random.choice(words_es)
         self.hidden_word = ["_"] * len(self.word)
         self.chances = 5
         self.failed_letters = []
@@ -108,6 +110,14 @@ class Widgets(ttk.Frame):
             self.guess = self.entry_guess.get().lower() 
             self.update_game()
             self.entry_guess.delete(0, tk.END)
+            print(self.word)
+
+        def boton_pista():
+            # Este botón revela una letra de la palabra oculta al hacer clic a cambio de una vida
+            if self.chances > 0 and "_" in self.hidden_word:
+               # Encuentra un guion bajo y lo reemplaza con la letra correspondiente de la palabra
+                self.hint_requested = True 
+                self.update_game()
         
         # CREAR WIDGETS
         label_tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "silver", foreground= "black", anchor= "center")
@@ -117,6 +127,8 @@ class Widgets(ttk.Frame):
         button_submit = ttk.Button(self, text= "Enviar", command= boton_enviar)
         # Vincular la tecla Enter al campo de entrada
         self.entry_guess.bind("<Return>", boton_enviar)
+        
+        button_hint = ttk.Button(self, text= "Pista", command= boton_pista) # Botón de pista que revela la palabra oculta
         
         label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "brown", foreground= "black", anchor= "center")
         self.label_failed_guesses_list = ttk.Label(self, font= "Calibri 14", text= self.failed_letters, background= "brown", foreground= "black", anchor= "center")
@@ -132,6 +144,7 @@ class Widgets(ttk.Frame):
         label_guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
         self.entry_guess.grid(row= 2 , column= 4, columnspan= 3, sticky= "nsew", padx= 10, pady= 40)
         button_submit.grid(row= 2, column= 7, sticky= "nsew", padx= 10, pady= 50)
+        button_hint.grid(row= 2, column= 8, sticky= "nsew", padx= 10, pady= 50)
         label_failed_guesses.grid(row= 3, column= 2, sticky= "nsew", padx= 5, pady= 25)
         self.label_failed_guesses_list.grid(row= 3, column= 4, columnspan= 4, sticky= "nsew", padx= 50, pady= 25)
         self.label_chances.grid(row= 4 , column= 2, columnspan= 1, sticky= "nsew", padx= 33, pady= 5)
@@ -143,15 +156,22 @@ class Widgets(ttk.Frame):
     
     # ACTUALIZAR EL ESTADO DEl JUEGO
     def update_game(self):
-        # COMPRUEBA SI SE ADIVINÓ LA PALABRA COMPLETA
-        if self.guess == self.word:
+        # Si se pidió pista, procesar primero
+        if self.hint_requested:
+            if self.chances > 1 and "_" in self.hidden_word:
+                index = self.hidden_word.index("_")
+                self.hidden_word[index] = self.word[index]
+                self.chances -= 1
+            else:
+                self.hint_pop_up()
+            self.hint_requested = False
+        # Lógica normal de adivinanza
+        elif self.guess == self.word:
             self.guess_word = True
-        # SI LA LETRA ESTA EN LA PALABRA A ADIVINAR
         elif self.guess in self.word:
             for i, letra in enumerate(self.word):
                 if letra == self.guess:
                     self.hidden_word[i] = self.guess
-        # SI LA LETRA NO ESTÁ EN LA PALABRA O LISTA DE FALLOS
         elif self.guess not in self.failed_letters:
             self.chances -= 1
             self.failed_letters.append(self.guess)
@@ -233,6 +253,22 @@ class Widgets(ttk.Frame):
         # CONTENIDO DUPLICADOS
         info_duplicados_txt= "Introdujiste una palabra o letra fallida ya dicha antes, ten más cuidado la próxima vez."
         label = ttk.Label(window, text= info_duplicados_txt, wraplength= 750, justify= "center")
+        label.pack(fill= "both", padx= 25, pady= 25)
+        button_close_reset = tk.Button(window, text="Volver al juego", command= lambda: window.destroy())
+        button_close_reset.pack(fill= "both", side= "bottom")
+
+    # POP UP DE PISTA INNECESARIA O NO DISPONIBLE
+    def hint_pop_up(self):
+        # SET-UP POP-UP PISTA
+        window = tk.Toplevel(self.master)
+        window.geometry("750x150")
+        window.resizable(0,0)
+        window.iconbitmap("Ahorcado.ico")
+        window.title("ERROR")
+
+        # CONTENIDO PISTA
+        info_hint_txt= "No puedes pedir una pista si solo te queda una vida o si la palabra ya está completa."
+        label = ttk.Label(window, text= info_hint_txt, wraplength= 750, justify= "center")
         label.pack(fill= "both", padx= 25, pady= 25)
         button_close_reset = tk.Button(window, text="Volver al juego", command= lambda: window.destroy())
         button_close_reset.pack(fill= "both", side= "bottom")
