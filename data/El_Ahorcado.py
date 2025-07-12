@@ -298,14 +298,29 @@ class Menu(tk.Menu):
 
     # CREO EL MENÚ 
     def crear_menu(self):
+        submenu_language = tk.Menu(self, tearoff = False)
+        submenu_language.add_command(label= "Español", command= lambda: print("Idioma cambiado a Español"))
+        submenu_language.add_command(label= "English", command= lambda: print("Language changed to English"))
+
+        submenu_theme = tk.Menu(self, tearoff = False)
+        submenu_theme.add_command(label= "Cosmo", command= lambda: print("cosmo"))
+        submenu_theme.add_command(label= "Darkly", command= lambda: print("darkly"))
+        submenu_theme.add_command(label= "Flatly", command= lambda: print("flatly"))
+        submenu_theme.add_command(label= "Lumen", command= lambda: print("lumen"))
+
         ajustes = tk.Menu(self, tearoff = False)
         ajustes.add_command(label= "Información", command= lambda: self.info_pop_up() if not self.info_pop_up_is_open else None)
+        ajustes.add_separator()
+        ajustes.add_cascade(label= "Cambiar idioma", menu= submenu_language)  # Aquí se enlaza el submenú
+        ajustes.add_separator()
+        ajustes.add_cascade(label= "Cambiar tema", menu= submenu_theme)  # Aquí se enlaza el submenú
         ajustes.add_separator()
         ajustes.add_command(label= "Reiniciar el Ahorcado", command= lambda: self.master.widgets.reiniciar_juego())
         ajustes.add_separator()
         ajustes.add_command(label= "Salir del Ahorcado", command= lambda: self.master.destroy())
         self.add_cascade(label= "Ajustes", menu= ajustes)
 
+        
     # POP UP DE INFORMACIÓN
     def info_pop_up(self):
         # SET-UP POP-UP INFO
