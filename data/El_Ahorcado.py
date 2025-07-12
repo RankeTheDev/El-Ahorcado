@@ -19,7 +19,7 @@ def resource_path(relative_path):
 
 # APP
 class Ahorcado_App(ttk.Window):
-    def __init__(self, themename="cyborg"):
+    def __init__(self, themename="cosmo"):
 
         # SET-UP DE SELF
         super().__init__(themename=themename)
@@ -141,8 +141,8 @@ class Widgets(ttk.Frame):
         
         button_hint = ttk.Button(self, text= "Pista", command= boton_pista) # Botón de pista que revela la palabra oculta
         
-        label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "brown", foreground= "black", anchor= "center")
-        self.label_failed_guesses_list = ttk.Label(self, font= "Calibri 14", text= self.failed_letters, background= "brown", foreground= "black", anchor= "center")
+        label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "red", foreground= "black", anchor= "center")
+        self.label_failed_guesses_list = ttk.Label(self, font= "Calibri 14", text= self.failed_letters, background= "red", foreground= "black", anchor= "center")
         self.label_chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         self.label_chances_number = ttk.Label(self, font= "Calibri 36", text= self.chances, background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         self.label_hangman = ttk.Label(self, font= "Calibri 14", text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
