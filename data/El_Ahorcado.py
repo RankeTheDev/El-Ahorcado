@@ -213,6 +213,7 @@ class Widgets(ttk.Frame):
         # Resetea la variable para prevenir bugs de repeticion infinita en los pop ups
         self.win_pop_up_is_open = False
         self.lose_pop_up_is_open = False
+        self.info_pop_up_is_open = False
         
     # POP UP DE VICTORIA
     def win_pop_up(self):
@@ -292,12 +293,13 @@ class Menu(tk.Menu):
     def __init__(self, parent):
         super().__init__(parent)
         self.crear_menu()
+        self.info_pop_up_is_open = False
         parent.config(menu=self)
 
     # CREO EL MENÚ 
     def crear_menu(self):
         ajustes = tk.Menu(self, tearoff = False)
-        ajustes.add_command(label= "Información", command= self.info_pop_up)
+        ajustes.add_command(label= "Información", command= lambda: self.info_pop_up() if not self.info_pop_up_is_open else None)
         ajustes.add_separator()
         ajustes.add_command(label= "Reiniciar el Ahorcado", command= lambda: self.master.widgets.reiniciar_juego())
         ajustes.add_separator()
@@ -308,17 +310,27 @@ class Menu(tk.Menu):
     def info_pop_up(self):
         # SET-UP POP-UP INFO
         window = tk.Toplevel(self.master)
-        window.geometry("600x200")
+        window.geometry("500x230")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
         window.title("Información")
+        self.info_pop_up_is_open = True
 
         # CONTENIDO INFO
-        info_txt ="En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉. Ten en cuenta que ninguna de las palabras ocultas lleva tilde aún si realmente deberían, asi que no introduzcas tales letras pues serán consideradas erróneas"
-        label = ttk.Label(window, text= info_txt, wraplength= 500, justify= "center")
+        info_txt ="En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉. Ten en cuenta que ninguna de las palabras ocultas lleva tilde aún si realmente deberían, asi que no introduzcas tales letras pues serán consideradas erróneas.               PD: Usa el botón 'volver al juego' para cerrar este pop-up o no podrás verlo de nuevo."
+        label = ttk.Label(window, text= info_txt, wraplength= 460, justify= "center")
         label.pack(fill= "both", padx= 20, pady=20)
-        button_close = tk.Button(window, text="Volver al juego", command= window.destroy)
+        
+        # BOTÓN PARA CERRAR EL POP-UP Y RESETEAR LA VARIABLE
+        def close_info_pop_up():
+            window.destroy()
+            self.info_pop_up_is_open = False
+
+        button_close = tk.Button(window, text="Volver al juego", command=close_info_pop_up)
         button_close.pack(fill= "both", side= "bottom")
+
+    # CHECK SI YA ESTÁ ABIERTO EL POP UP DE INFO
+    
 
 # LLAMO A LA APP
 Ahorcado_App()
