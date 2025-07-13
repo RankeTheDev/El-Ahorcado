@@ -84,7 +84,7 @@ labels = {
 
 # APP
 class Ahorcado_App(ttk.Window):
-    def __init__(self, themename="cosmo"):
+    def __init__(self, themename= "cosmo"):
 
         # SET-UP DE SELF
         super().__init__(themename=themename)
@@ -93,12 +93,19 @@ class Ahorcado_App(ttk.Window):
         self.minsize(960, 540)
         # ICONO DE LA VENTANA
         self.iconbitmap(resource_path("Ahorcado.ico"))
+        self.theme = themename  # Tema actual de la ventana
         
         # PARTES DE LA APP
         self.widgets = Widgets(self)
         self.menu = Menu(self)
         # RUN
         self.mainloop()
+
+    def cambiar_tema(self, nuevo_tema):
+        """Cambia el tema de la app y actualiza widgets si es necesario"""
+        self.style.theme_use(nuevo_tema)
+        self.theme = nuevo_tema
+        # Si necesitas refrescar widgets, llama a métodos de actualización aquí
 
 # CLASE CON LOS WIDGETS Y FUNCIONES PRINCIPALES
 class Widgets(ttk.Frame):
@@ -201,7 +208,7 @@ class Widgets(ttk.Frame):
         # CREAR WIDGETS
         self.label_tittle = ttk.Label(self, font = "Cambria 25 bold", text= labels[self.selected_language]["titulo"], background= "silver", foreground= "black", anchor= "center")
         self.label_guess = ttk.Label(self, font= "Calibri 14", text= labels[self.selected_language]["label_guess"], background= "cyan",  foreground= "black", anchor= "center")
-        self.entry_guess = ttk.Entry(self, font= "Calibri 20", foreground= "purple", justify= "center")
+        self.entry_guess = ttk.Entry(self, font= "Calibri 20", foreground= "orange", justify= "center")
         
         self.button_submit = ttk.Button(self, text= labels[self.selected_language]["boton_enviar"], command= boton_enviar)
         # Vincular la tecla Enter al campo de entrada
@@ -393,17 +400,66 @@ class Menu(tk.Menu):
         self.delete(0, "end")  # Borra el menú anterior
         self.crear_menu()      # Crea el menú con los textos actualizados
     
+    # FUNCIONES PARA CAMBIAR EL TEMA
+    # LIGHT THEMES
+    def set_theme_cosmo(self):
+        self.master.cambiar_tema("cosmo")
+
+    def set_theme_united(self):
+        self.master.cambiar_tema("united")
+
+    def set_theme_morph(self):
+        self.master.cambiar_tema("morph")
+
+    def set_theme_simplex(self):
+        self.master.cambiar_tema("simplex")
+
+    def set_theme_cerculean(self):
+        self.master.cambiar_tema("cerculean")
+
+    # DARK THEMES
+    def set_theme_cyborg(self):
+        self.master.cambiar_tema("cyborg")
+
+    def set_theme_darkly(self):
+        self.master.cambiar_tema("darkly")
+
+    def set_theme_superhero(self):
+        self.master.cambiar_tema("superhero")
+
+    def set_theme_solar(self):
+        self.master.cambiar_tema("solar")
+    
+    def set_theme_vapor(self):
+        self.master.cambiar_tema("vapor")
+
     # CREO EL MENÚ 
     def crear_menu(self):
+        # SUBMENU LANGUAGES
         submenu_language = tk.Menu(self, tearoff = False)
         submenu_language.add_command(label= "Español", command= self.set_language_esp)
         submenu_language.add_command(label= "English", command= self.set_language_eng)
 
+        # SUBMENU THEMES LIGHT
+        submenu_theme_light = tk.Menu(self, tearoff = False)
+        submenu_theme_light.add_command(label= "Cosmo", command= self.set_theme_cosmo)
+        submenu_theme_light.add_command(label= "United", command= self.set_theme_united)
+        submenu_theme_light.add_command(label= "Morph", command= self.set_theme_morph)
+        submenu_theme_light.add_command(label= "Simplex", command= self.set_theme_simplex)
+        submenu_theme_light.add_command(label= "Cerculean", command= self.set_theme_cerculean)
+
+        # SUBMENU THEMES DARK      
+        submenu_theme_dark = tk.Menu(self, tearoff = False)
+        submenu_theme_dark.add_command(label= "Cyborg", command= self.set_theme_cyborg)
+        submenu_theme_dark.add_command(label= "Darkly", command= self.set_theme_darkly)
+        submenu_theme_dark.add_command(label= "Superhero", command= self.set_theme_superhero)
+        submenu_theme_dark.add_command(label= "Solar", command= self.set_theme_solar)
+        submenu_theme_dark.add_command(label= "Vapor", command= self.set_theme_vapor)
+
+        # SUBMENU THEMES
         submenu_theme = tk.Menu(self, tearoff = False)
-        submenu_theme.add_command(label= "Cosmo", command= lambda: print("cosmo"))
-        submenu_theme.add_command(label= "Darkly", command= lambda: print("darkly"))
-        submenu_theme.add_command(label= "Flatly", command= lambda: print("flatly"))
-        submenu_theme.add_command(label= "Lumen", command= lambda: print("lumen"))
+        submenu_theme.add_cascade(label= "Dark Themes (🌛)", menu= submenu_theme_dark)
+        submenu_theme.add_cascade(label= "Light Themes (🌞)", menu= submenu_theme_light)
 
         ajustes = tk.Menu(self, tearoff = False)
         ajustes.add_command(label= "Info", command= lambda: self.info_pop_up() if not self.info_pop_up_is_open else None)
