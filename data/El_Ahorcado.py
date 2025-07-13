@@ -17,13 +17,78 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
+labels = {
+    "es": {
+        # WIDGETS AREA
+        "titulo": "EL AHORCADO",
+        "label_guess": "Introduzca una letra o palabra para adivinar:",
+        "boton_enviar": "Enviar",
+        "boton_pista": "Pista",
+        "label_failed_guesses": "Estas letras y palabras son incorrectas:",
+        "label_chances": "Intentos restantes",
+        "label_hidden_word": "Esta es la palabra oculta",
+        # POP UP COMMON ASSETS
+        "button_exit": "Salir del juego",
+        "button_replay": "Volver a jugar",
+        "button_return": "Volver al juego",
+        # POP-UP WIN 
+        "popup_win_tittle": "🎉 🏆 ¡GANASTE! 🏆 🎉",
+        "popup_win_text": "Felicidades, acertaste la palabra '{}' y ganaste el juego. \nAhora puedes salir del juego o intentar ganar de nuevo, ¿qué deseas hacer?",
+        # POP-UP LOSE
+        "popup_lose_tittle": "💀 😩 ¡PERDISTE! 💀 😩",
+        "popup_lose_text": "Una pena, no lograste acertar la palabra '{}' y fuiste ahorcado. \nAhora puedes salir del juego o intentarlo de nuevo, ¿qué deseas hacer?",
+        # POP-UP DUPLICATES
+        "popup_duplicates_text": "Introdujiste una palabra o letra fallida ya dicha antes, ten más cuidado la próxima vez.",
+        # POP-UP HINT
+        "popup_hint_text": "No puedes pedir una pista si solo te queda una vida o si la palabra ya está completa.",
+
+        # MENU AREA
+        "settings": "Ajustes",
+        "change_language": "Cambiar idioma",
+        "change_theme": "Cambiar tema",
+        "popup_info_text": "En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉. Ten en cuenta que ninguna de las palabras ocultas lleva tilde aún si realmente deberían, asi que no introduzcas tales letras pues serán consideradas erróneas. \n\nPD: Usa el botón 'volver al juego' para cerrar este pop-up o no podrás verlo de nuevo."
+
+    },
+    "en": {
+        # WIDGETS AREA
+        "titulo": "THE HANGMAN",
+        "label_guess": "Enter a letter or word to guess:",
+        "boton_enviar": "Submit",
+        "boton_pista": "Hint",
+        "label_failed_guesses": "These letters and words are incorrect:",
+        "label_chances": "Remaining attempts",
+        "label_hidden_word": "This is the hidden word",
+        # POP UP COMMON ASSETS
+        "button_exit": "Exit the game",
+        "button_replay": "Play again",
+        "button_return": "Return to the game",
+        # POP-UP WIN
+        "popup_win_tittle": "🎉 🏆 YOU WON! 🏆 🎉",
+        "popup_win_text": "Congratulations, you guessed the word '{}' and won the game. \nNow you can exit the game or try to win again, what would you like to do?",
+        # POP-UP LOSE
+        "popup_lose_tittle": "💀 😩 YOU LOST! 💀 😩",
+        "popup_lose_text": "Unfortunately, you didn't guess the word '{}' and were hanged. \nNow you can exit the game or try again, what would you like to do?",
+        # POP-UP DUPLICATES
+        "popup_duplicates_text": "You entered a word or failed letter that has already been mentioned, be more careful next time.",
+        # POP-UP HINT
+        "popup_hint_text": "You cannot request a hint if you only have one life left or if the word is already complete.",
+
+        # MENU AREA
+        "settings": "Settings",
+        "change_language": "Change language",
+        "change_theme": "Change theme",
+        "popup_info_text": "In this hangman game, you can guess by saying letters or complete words, so you only need to worry about guessing the word before being hanged 😉. Keep in mind that none of the hidden words have accents even if they should, so don't enter such letters as they will be considered wrong. \n\nPS: Use the 'return to game' button to close this pop-up or you won't be able to see it again."
+
+    }
+}
+
 # APP
 class Ahorcado_App(ttk.Window):
     def __init__(self, themename="cosmo"):
 
         # SET-UP DE SELF
         super().__init__(themename=themename)
-        self.title("El Ahorcado")
+        self.title("The Hangman")
         self.geometry("1280x720")
         self.minsize(960, 540)
         # ICONO DE LA VENTANA
@@ -42,6 +107,8 @@ class Widgets(ttk.Frame):
         self.place(x= 0, y= 0, relwidth= 1, relheight= 1)
 
         # VARIABLES DE LA CLASE
+        self.language_pool = words_en
+        self.selected_language = "en"
         self.word = ""
         self.hidden_word = []
         self.chances = 5
@@ -61,7 +128,7 @@ class Widgets(ttk.Frame):
     # LOGICA PARA ESCOGER LA PALABRA AL AZAR
     def choose_word(self):
         # ESCOGE LA PALABRA
-        self.word = random.choice(words_es)
+        self.word = random.choice(self.language_pool)
         self.hidden_word = ["_"] * len(self.word)
         self.chances = 5
         self.failed_letters = []
@@ -105,7 +172,8 @@ class Widgets(ttk.Frame):
             return fases_ahorcado[4]
         elif self.chances == 0:
             return fases_ahorcado[5]
-        
+
+    # FUNCIÓN PARA LA SELECCIÓN DEL COLOR DE LA ZONA DE INTENTOS    
     def elegir_color_background(self):
         if self.chances == 5:
             return "green"
@@ -118,7 +186,7 @@ class Widgets(ttk.Frame):
         # FUNCION PARA OBTENER LA GUESS
         def boton_enviar(event= None):
             # CON EL LOWER LA GUESS SIEMPRE PASARÁ EN MINÚSCULAS, EVITANDO ERRORES AL COMPARAR LAS LETRAS 
-            self.guess = self.entry_guess.get().lower() 
+            self.guess = self.entry_guess.get().lower()
             self.update_game()
             self.entry_guess.delete(0, tk.END)
             print(self.word)
@@ -131,37 +199,37 @@ class Widgets(ttk.Frame):
                 self.update_game()
         
         # CREAR WIDGETS
-        label_tittle = ttk.Label(self, font = "Cambria 25 bold", text= "EL AHORCADO", background= "silver", foreground= "black", anchor= "center")
-        label_guess = ttk.Label(self, font= "Calibri 14", text= "Introduzca una letra o palabra para adivinar:", background= "cyan",  foreground= "black", anchor= "center")
+        self.label_tittle = ttk.Label(self, font = "Cambria 25 bold", text= labels[self.selected_language]["titulo"], background= "silver", foreground= "black", anchor= "center")
+        self.label_guess = ttk.Label(self, font= "Calibri 14", text= labels[self.selected_language]["label_guess"], background= "cyan",  foreground= "black", anchor= "center")
         self.entry_guess = ttk.Entry(self, font= "Calibri 20", foreground= "purple", justify= "center")
         
-        button_submit = ttk.Button(self, text= "Enviar", command= boton_enviar)
+        self.button_submit = ttk.Button(self, text= labels[self.selected_language]["boton_enviar"], command= boton_enviar)
         # Vincular la tecla Enter al campo de entrada
         self.entry_guess.bind("<Return>", boton_enviar)
         
-        button_hint = ttk.Button(self, text= "Pista", command= boton_pista) # Botón de pista que revela la palabra oculta
+        self.button_hint = ttk.Button(self, text= labels[self.selected_language]["boton_pista"], command= boton_pista) # Botón de pista que revela la palabra oculta
         
-        label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= "Estas letras y palabras son incorrectas:", background= "red", foreground= "black", anchor= "center")
+        self.label_failed_guesses = ttk.Label(self, font= "Calibri 14", text= labels[self.selected_language]["label_failed_guesses"], background= "red", foreground= "black", anchor= "center")
         self.label_failed_guesses_list = ttk.Label(self, font= "Calibri 14", text= self.failed_letters, background= "red", foreground= "black", anchor= "center")
-        self.label_chances = ttk.Label(self, font= "Calibri 14", text= "Intentos restantes", background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
+        self.label_chances = ttk.Label(self, font= "Calibri 14", text= labels[self.selected_language]["label_chances"], background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         self.label_chances_number = ttk.Label(self, font= "Calibri 36", text= self.chances, background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
         self.label_hangman = ttk.Label(self, font= "Calibri 14", text= self.elegir_dibujo_ahorcado(), background= self.elegir_color_background(), foreground= "black", anchor= "center") #Fondo dinámico
-        label_hidden_word = ttk.Label(self, font= "Calibri 20", text = "Esta es la palabra oculta", anchor= "center")
+        self.label_hidden_word = ttk.Label(self, font= "Calibri 20", text = labels[self.selected_language]["label_hidden_word"], anchor= "center")
         self.label_hidden_word_show = ttk.Label(self, font= "Calibri 36", text = self.hidden_word, anchor= "center")
         label_version = ttk.Label(self, font= "Calibri 7", text= "v 1.3", foreground= "grey", anchor= "center")
         
         # PLACE WIDGETS
-        label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
-        label_guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
+        self.label_tittle.grid(row= 1, column= 1, columnspan= 8, sticky= "nsew", padx= 5, pady= 5)
+        self.label_guess.grid(row= 2, column= 2, sticky= "nsew", padx= 5, pady= 40)
         self.entry_guess.grid(row= 2 , column= 4, columnspan= 3, sticky= "nsew", padx= 10, pady= 40)
-        button_submit.grid(row= 2, column= 7, sticky= "nsew", padx= 10, pady= 50)
-        button_hint.grid(row= 2, column= 8, sticky= "nsew", padx= 10, pady= 50)
-        label_failed_guesses.grid(row= 3, column= 2, sticky= "nsew", padx= 5, pady= 25)
+        self.button_submit.grid(row= 2, column= 7, sticky= "nsew", padx= 10, pady= 50)
+        self.button_hint.grid(row= 2, column= 8, sticky= "nsew", padx= 10, pady= 50)
+        self.label_failed_guesses.grid(row= 3, column= 2, sticky= "nsew", padx= 5, pady= 25)
         self.label_failed_guesses_list.grid(row= 3, column= 4, columnspan= 4, sticky= "nsew", padx= 50, pady= 25)
         self.label_chances.grid(row= 4 , column= 2, columnspan= 1, sticky= "nsew", padx= 33, pady= 5)
         self.label_chances_number.grid(row= 5 , column= 2, columnspan= 1, sticky= "nsew", padx= 33, pady= 5)
         self.label_hangman.grid(row= 4, column= 3, rowspan= 2, columnspan= 2, sticky= "nsew", padx= 20, pady= 10)
-        label_hidden_word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
+        self.label_hidden_word.grid(row= 4, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
         self.label_hidden_word_show.grid(row= 5, column= 6, columnspan= 2, sticky= "nsew", padx= 5, pady= 5)
         label_version.grid(row= 6, column= 9, sticky= "sw", padx= 5, pady= 5)
     
@@ -200,10 +268,26 @@ class Widgets(ttk.Frame):
         elif self.chances == 0 and self.lose_pop_up_is_open == False:
             self.lose_pop_up()
     
+    # ACTUALIZA LOS TEXTOS DE LOS WIDGETS SEGÚN EL IDIOMA SELECCIONADO
+    def update_language(self):
+        # Actualiza los textos de los widgets según el idioma seleccionado
+        self.label_tittle.config(text= labels[self.selected_language]["titulo"])
+        self.label_guess.config(text= labels[self.selected_language]["label_guess"])
+        self.button_submit.config(text= labels[self.selected_language]["boton_enviar"])
+        self.button_hint.config(text= labels[self.selected_language]["boton_pista"])
+        self.label_failed_guesses.config(text= labels[self.selected_language]["label_failed_guesses"])
+        self.label_chances.config(text= labels[self.selected_language]["label_chances"])
+        self.label_hidden_word.config(text= labels[self.selected_language]["label_hidden_word"])
+        # Actualiza el texto de los ajustes del menú
+        self.master.menu.update_menu_language()
+        
+
     # FUNCION PARA REINICIAR EL JUEGO
     def reiniciar_juego(self):
         # Vuelve a elegir la palabra
         self.choose_word() 
+        # Actualiza los textos de los widgets
+        self.update_language()
         # Actualiza los widgets
         self.label_hidden_word_show.config(text=self.hidden_word)
         self.label_failed_guesses_list.config(text=self.failed_letters)
@@ -222,16 +306,15 @@ class Widgets(ttk.Frame):
         window.geometry("590x250")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
-        window.title("🎉 🏆 ¡GANASTE! 🏆 🎉")
+        window.title(labels[self.selected_language]["popup_win_tittle"])
         self.win_pop_up_is_open = True
 
         # CONTENIDO WIN
-        info_win_txt= f"Felicidades, acertaste la palabra '{self.word}' y ganaste el juego. \nAhora puedes salir del juego o intentar ganar de nuevo, ¿qué deseas hacer?"
-        label = ttk.Label(window, text= info_win_txt, wraplength= 550, justify= "center")
+        label = ttk.Label(window, text= labels[self.selected_language]["popup_win_text"].format(self.word), wraplength= 550, justify= "center")
         label.pack(fill= "both", padx= 25, pady= 25)
-        button_win_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
+        button_win_close = tk.Button(window, text= labels[self.selected_language]["button_exit"], command= lambda: self.master.destroy())
         button_win_close.pack(fill= "both", side= "bottom")
-        button_win_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
+        button_win_reset = tk.Button(window, text= labels[self.selected_language]["button_replay"], command= lambda: [self.reiniciar_juego(), window.destroy()])
         button_win_reset.pack(fill= "both", side= "bottom")
 
     # POP UP DE DERROTA
@@ -241,16 +324,15 @@ class Widgets(ttk.Frame):
         window.geometry("590x250")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
-        window.title("💀 😩 ¡PERDISTE! 😩 💀 ")
+        window.title(labels[self.selected_language]["popup_lose_tittle"])
         self.lose_pop_up_is_open = True
 
         # CONTENIDO LOSE
-        info_lose_txt= f"Una pena, no lograste acertar la palabra '{self.word}' y fuiste ahorcado. \nAhora puedes salir del juego o intentarlo de nuevo, ¿qué deseas hacer?"
-        label = ttk.Label(window, text= info_lose_txt, wraplength= 550, justify= "center")
+        label = ttk.Label(window, text= labels[self.selected_language]["popup_lose_text"].format(self.word), wraplength= 550, justify= "center")
         label.pack(fill= "both", padx= 25, pady= 25)
-        button_lose_close = tk.Button(window, text="Salir del Ahorcado", command= lambda: self.master.destroy())
+        button_lose_close = tk.Button(window, text= labels[self.selected_language]["button_exit"], command= lambda: self.master.destroy())
         button_lose_close.pack(fill= "both", side= "bottom")
-        button_close_reset = tk.Button(window, text="Volver a jugar", command= lambda: [self.reiniciar_juego(), window.destroy()])
+        button_close_reset = tk.Button(window, text= labels[self.selected_language]["button_replay"], command= lambda: [self.reiniciar_juego(), window.destroy()])
         button_close_reset.pack(fill= "both", side= "bottom")
 
     # POP UP DE DUPLICADOS
@@ -260,13 +342,13 @@ class Widgets(ttk.Frame):
         window.geometry("750x150")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
-        window.title("ERROR")
+        window.title("🚫 ERROR 🚫")
         
         # CONTENIDO DUPLICADOS
         info_duplicados_txt= "Introdujiste una palabra o letra fallida ya dicha antes, ten más cuidado la próxima vez."
-        label = ttk.Label(window, text= info_duplicados_txt, wraplength= 750, justify= "center")
+        label = ttk.Label(window, text= labels[self.selected_language]["popup_duplicates_text"], wraplength= 750, justify= "center")
         label.pack(fill= "both", padx= 25, pady= 25)
-        button_close_reset = tk.Button(window, text="Volver al juego", command= lambda: window.destroy())
+        button_close_reset = tk.Button(window, text= labels[self.selected_language]["button_return"] , command= lambda: window.destroy())
         button_close_reset.pack(fill= "both", side= "bottom")
 
     # POP UP DE PISTA INNECESARIA O NO DISPONIBLE
@@ -276,13 +358,12 @@ class Widgets(ttk.Frame):
         window.geometry("750x150")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
-        window.title("ERROR")
+        window.title(" 🚫 ERROR 🚫")
 
         # CONTENIDO PISTA
-        info_hint_txt= "No puedes pedir una pista si solo te queda una vida o si la palabra ya está completa."
-        label = ttk.Label(window, text= info_hint_txt, wraplength= 750, justify= "center")
+        label = ttk.Label(window, text= labels[self.selected_language]["popup_hint_text"], wraplength= 750, justify= "center")
         label.pack(fill= "both", padx= 25, pady= 25)
-        button_close_reset = tk.Button(window, text="Volver al juego", command= lambda: window.destroy())
+        button_close_reset = tk.Button(window, text= labels[self.selected_language]["button_return"], command= lambda: window.destroy())
         button_close_reset.pack(fill= "both", side= "bottom")
 
     def play(self):
@@ -295,12 +376,28 @@ class Menu(tk.Menu):
         self.crear_menu()
         self.info_pop_up_is_open = False
         parent.config(menu=self)
+        self.master.widgets.language_pool = words_en  # Establece el idioma por defecto al español
 
+    # FUNCIONES PARA CAMBIAR EL IDIOMA
+    def set_language_esp(self):
+        self.master.widgets.language_pool = words_es
+        self.master.widgets.selected_language = "es"  # Actualiza el idioma seleccionado
+        self.master.widgets.reiniciar_juego()  # Reinicia el juego con el nuevo idioma
+
+    def set_language_eng(self):
+        self.master.widgets.language_pool = words_en
+        self.master.widgets.selected_language = "en"  # Actualiza el idioma seleccionado
+        self.master.widgets.reiniciar_juego() # Reinicia el juego con el nuevo idioma
+
+    def update_menu_language(self):
+        self.delete(0, "end")  # Borra el menú anterior
+        self.crear_menu()      # Crea el menú con los textos actualizados
+    
     # CREO EL MENÚ 
     def crear_menu(self):
         submenu_language = tk.Menu(self, tearoff = False)
-        submenu_language.add_command(label= "Español", command= lambda: print("Idioma cambiado a Español"))
-        submenu_language.add_command(label= "English", command= lambda: print("Language changed to English"))
+        submenu_language.add_command(label= "Español", command= self.set_language_esp)
+        submenu_language.add_command(label= "English", command= self.set_language_eng)
 
         submenu_theme = tk.Menu(self, tearoff = False)
         submenu_theme.add_command(label= "Cosmo", command= lambda: print("cosmo"))
@@ -309,16 +406,16 @@ class Menu(tk.Menu):
         submenu_theme.add_command(label= "Lumen", command= lambda: print("lumen"))
 
         ajustes = tk.Menu(self, tearoff = False)
-        ajustes.add_command(label= "Información", command= lambda: self.info_pop_up() if not self.info_pop_up_is_open else None)
+        ajustes.add_command(label= "Info", command= lambda: self.info_pop_up() if not self.info_pop_up_is_open else None)
         ajustes.add_separator()
-        ajustes.add_cascade(label= "Cambiar idioma", menu= submenu_language)  # Aquí se enlaza el submenú
+        ajustes.add_cascade(label= labels[self.master.widgets.selected_language]["change_language"], menu= submenu_language)  # Aquí se enlaza el submenú
         ajustes.add_separator()
-        ajustes.add_cascade(label= "Cambiar tema", menu= submenu_theme)  # Aquí se enlaza el submenú
+        ajustes.add_cascade(label= labels[self.master.widgets.selected_language]["change_theme"], menu= submenu_theme)  # Aquí se enlaza el submenú
         ajustes.add_separator()
-        ajustes.add_command(label= "Reiniciar el Ahorcado", command= lambda: self.master.widgets.reiniciar_juego())
+        ajustes.add_command(label= labels[self.master.widgets.selected_language]["button_replay"], command= lambda: self.master.widgets.reiniciar_juego())
         ajustes.add_separator()
-        ajustes.add_command(label= "Salir del Ahorcado", command= lambda: self.master.destroy())
-        self.add_cascade(label= "Ajustes", menu= ajustes)
+        ajustes.add_command(label= labels[self.master.widgets.selected_language]["button_exit"], command= lambda: self.master.destroy())
+        self.add_cascade(label= labels[self.master.widgets.selected_language]["settings"], menu= ajustes)
 
         
     # POP UP DE INFORMACIÓN
@@ -328,12 +425,11 @@ class Menu(tk.Menu):
         window.geometry("500x230")
         window.resizable(0,0)
         window.iconbitmap(resource_path("Ahorcado.ico"))
-        window.title("Información")
+        window.title("Info")
         self.info_pop_up_is_open = True
 
         # CONTENIDO INFO
-        info_txt ="En este ahorcado puedes adivinar diciendo letras o palabras completas, de esta forma solo debes preocuparte por acertar la palabra antes de ser ahorcado 😉. Ten en cuenta que ninguna de las palabras ocultas lleva tilde aún si realmente deberían, asi que no introduzcas tales letras pues serán consideradas erróneas.               PD: Usa el botón 'volver al juego' para cerrar este pop-up o no podrás verlo de nuevo."
-        label = ttk.Label(window, text= info_txt, wraplength= 460, justify= "center")
+        label = ttk.Label(window, text= labels[self.master.widgets.selected_language]["popup_info_text"], wraplength= 460, justify= "center")
         label.pack(fill= "both", padx= 20, pady=20)
         
         # BOTÓN PARA CERRAR EL POP-UP Y RESETEAR LA VARIABLE
