@@ -196,7 +196,7 @@ class Widgets(ttk.Frame):
             self.guess = self.entry_guess.get().lower()
             self.update_game()
             self.entry_guess.delete(0, tk.END)
-            print(self.word)
+            #print(self.word) # Para tests
 
         def boton_pista():
             # Este botón revela una letra de la palabra oculta al hacer clic a cambio de una vida
