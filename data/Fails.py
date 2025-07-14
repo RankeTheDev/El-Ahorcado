@@ -1,11 +1,11 @@
-# Fase 0 [0] -> 0 fallos.
-# Fase 1 [1] -> 1 fallos.
-# Fase 2 [2] -> 2 fallos.
-# Fase 3 [3] -> 3 fallos.
-# Fase 4 [4] -> 4 fallos.
-# Fase 5 [5] -> 5 fallos, pierdes.
+# Phase 0 [0] -> 0 fails.
+# Phase 1 [1] -> 1 fails.
+# Phase 2 [2] -> 2 fails.
+# Phase 3 [3] -> 3 fails.
+# Phase 4 [4] -> 4 fails.
+# Phase 5 [5] -> 5 fails, you lost.
 
-fases_ahorcado=("""
+phases_hangman=("""
 
   
    
